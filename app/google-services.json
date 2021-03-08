@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "666962737143",
+    "project_id": "oasms-da990",
+    "storage_bucket": "oasms-da990.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666962737143:android:62cb00b7cf4606d77de0f2",
+        "android_client_info": {
+          "package_name": "com.demoapp.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "666962737143-m4bulvtacpgdrr3usmcln9csaibksh23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFchh80OZvodz9uOxjq20kB6e-5XOfMGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "666962737143-m4bulvtacpgdrr3usmcln9csaibksh23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

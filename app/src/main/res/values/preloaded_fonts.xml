@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+
+        <item>@font/aladin</item>
+        <item>@font/allura</item>
+        <item>@font/amita</item>
+        <item>@font/bad_script</item>
+        <item>@font/baloo</item>
+        <item>@font/baloo_thambi</item>
+        <item>@font/duru_sans</item>
+        <item>@font/muli</item>
+        <item>@font/muli_black</item>
+        <item>@font/muli_extralight</item>
+        <item>@font/muli_light</item>
+        <item>@font/muli_semibold</item>
+    </array>
+</resources>

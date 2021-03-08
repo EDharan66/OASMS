@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">Automobile service app</string>
+    <string name="logo_name">Automobile Service</string>
+    <string name="slogan_name">service in on spot!</string>
+    <string name="powered_by">Powered by Team 10</string>
+
+
+    <!--string f0r on boarding screen-->
+
+    <!--title-->
+    <string name="first_slide_title">map screen</string>
+    <string name="second_slide_title">call for service</string>
+    <string name="third_slide_title">near by petrol station</string>
+    <string name="four_slide_title">car on spot service</string>
+    <string name="five_slide_title">purchase accessories</string>
+    <string name="six_slide_title">report generate</string>
+
+
+    <!--description-->
+    <string name="first_slide_desc">map screen description</string>
+    <string name="second_slide_desc">call for service description</string>
+    <string name="third_slide_desc">near by petrol station description</string>
+    <string name="four_slide_desc">car on spot service description</string>
+    <string name="five_slide_desc">purchase accessories description</string>
+    <string name="six_slide_desc">report generate description</string>
+
+
+    <!--button-->
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="let_get_started">Lets get started</string>
+    <string name="login_heading">login / sign up</string>
+    <string name="login_tag_line">Unlock a app and enjoy to use!</string>
+    <string name="login">Login</string>
+    <string name="sign_up">SignUp</string>
+    <string name="help">Help?</string>
+    <string name="enter_phone_number">Enter the phone number</string>
+    <string name="enter_password">Enter the password</string>
+    <string name="forget_password">Forget password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="create_account">Create Account</string>
+    <string name="enter_full_name">Enter the full name</string>
+    <string name="enter_username">Enter the user name</string>
+    <string name="enter_email">Enter the mail ID</string>
+    <string name="search_text">Search..</string>
+    <string name="service_center">Service centers</string>
+    <string name="map_view">Map view</string>
+    <string name="booking">Booking</string>
+    <string name="repot_view">Report</string>
+    <string name="locations">Recent search</string>
+    <string name="recent_search_dec">recently searched location are showned here</string>
+    <string name="Categories">Categories</string>
+    <string name="view_all">View all</string>
+    <string name="service_center_login">Service center</string>
+    <string name="customer_login">Customer login</string>
+    <string name="create_service_account">CREATE SERVICE ACCOUNT</string>
+    <string name="catagories_title">title1</string>
+    <string name="catagories_dec">this is catagories desc</string>
+    <string name="todo">TODO</string>
+    <string name="otp_code_text">OTP</string>
+    <string name="otp_verification_text">verfication</string>
+    <string name="otp_description_text">verify to your number</string>
+    <string name="verify_code">verify code</string>
+    <string name="forget_password_detail">verify with your number</string>
+    <string name="make_selection">Make Seletion</string>
+    <string name="make_selection_detail">choose following verificiation</string>
+    <string name="via_mail">OTP in Mail</string>
+    <string name="via_sms">OTP in SMS</string>
+    <string name="new_credentials">New password</string>
+    <string name="new_credentials_detail">Enter valid password</string>
+    <string name="password_updated">Password Updated</string>
+    <string name="password_updated_success_message">your password updated sucessfully</string>
+    <string name="longitude">Longitude Value</string>
+    <string name="latitude">Latitude value</string>
+    <string name="set_location">set location</string>
+    <string name="google_maps_key1">AIzaSyBC9P03reAno5Z5zc1MUDqRwZn5bzQ3O4c</string>
+    <string name="google_maps_key_old">AIzaSyBbcf79tMvTrp76RxE4Q2kmQg4u2WRzpls</string>
+    <string name="google_maps_key">AIzaSyDqUtJ81AXsDGSnEj1h62TRArQuA6149tA</string>
+    <string name="GetLocation">Get Location</string>
+    <string name="LocationDisplay">Location Display</string>
+    <string name="Latitude">Latitude</string>
+    <string name="Longitude">Longitude</string>
+    <string name="booking_page_title">Booking page</string>
+    <string name="name_booking_page">name</string>
+    <string name="phone_booking_page">phone Number</string>
+    <string name="mail_booking_page_text">mail</string>
+
+</resources>

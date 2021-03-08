@@ -1,0 +1,97 @@
+package com.demoapp.demo.HelperClass;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.viewpager.widget.PagerAdapter;
+
+import com.demoapp.demo.R;
+
+public class SliderAdapter extends PagerAdapter {
+
+    Context context;
+    LayoutInflater layoutInflater;
+
+    public SliderAdapter(Context context) {
+        this.context = context;
+    }
+
+    int images[] = {
+
+            R.drawable.map_on_bording_page,
+            R.drawable.call_service,
+            R.drawable.nearby_petrol_bunk,
+            R.drawable.onspot_service,
+            R.drawable.purchase,
+            R.drawable.report_generate
+
+
+    };
+
+    int headings[] = {
+
+            R.string.first_slide_title,
+            R.string.second_slide_title,
+            R.string.third_slide_title,
+            R.string.four_slide_title,
+            R.string.five_slide_title,
+            R.string.six_slide_title
+
+    };
+
+    int descriptions[] = {
+
+            R.string.first_slide_desc,
+            R.string.second_slide_desc,
+            R.string.third_slide_desc,
+            R.string.four_slide_desc,
+            R.string.five_slide_desc,
+            R.string.six_slide_desc
+
+    };
+
+
+    @Override
+    public int getCount() {
+        return headings.length;
+    }
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == (ConstraintLayout) object;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+
+
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.slides_layout,container,false);
+
+        ImageView imageView = view.findViewById(R.id.slider_image);
+        TextView heading = view.findViewById(R.id.slider_heading);
+        TextView desc = view.findViewById(R.id.slider_desc);
+
+        imageView.setImageResource(images[position]);
+        heading.setText(headings[position]);
+        desc.setText(descriptions[position]);
+
+        container.addView(view);
+
+
+        return view;
+    }
+
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((ConstraintLayout)object);
+    }
+}

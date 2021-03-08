@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.demoapp.demo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DemoApp">
+        <activity android:name=".User.ServiceDashboard"></activity>
+        <activity android:name=".Common.MapViewer.TextMessage" />
+        <activity android:name=".Common.MapViewer.Booking_page_new" />
+        <activity android:name=".Common.BookingPage" />
+        <activity android:name=".Common.MapViewer.MapCurrentLocation" />
+        <activity android:name=".Common.OTP.SuccessMessage" />
+        <activity android:name=".Common.OTP.SetNewPassword" />
+        <activity android:name=".Common.OTP.MakeSelection" />
+        <activity android:name=".Common.OTP.ForgetPassword" />
+        <activity android:name=".Common.OTP.VerifyOTP" />
+        <activity android:name=".Common.LoginSingUp.Service_center_signUp_page1" />
+        <activity android:name=".Common.LoginSingUp.customer_signUp_page3" />
+        <activity android:name=".Common.LoginSingUp.customer_signUp_page2" />
+        <activity android:name=".Common.LoginSingUp.Service_center_signUp_page3" />
+        <activity android:name=".Common.LoginSingUp.Service_center_signUp_page2" />
+        <activity android:name=".Common.LoginSingUp.customer_signUp_page1" />
+        <activity android:name=".Common.LoginSingUp.customer_login" />
+        <activity android:name=".Common.LoginSingUp.service_center_login" />
+        <activity android:name=".Common.MapViewer.MapViewr" />
+        <activity android:name=".Common.LoginSingUp.StartUpScreen" />
+        <activity android:name=".Common.OnBoarding" />
+        <activity android:name=".User.UserDashboard" />
+        <activity android:name=".Common.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Common.MapViewer.NearByPlace.MapsActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDqUtJ81AXsDGSnEj1h62TRArQuA6149tA" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>
