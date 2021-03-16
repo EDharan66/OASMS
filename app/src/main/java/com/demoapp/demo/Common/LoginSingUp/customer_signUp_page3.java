@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.demoapp.demo.Common.MapViewer.MapCurrentLocation;
 import com.demoapp.demo.Common.OTP.ForgetPassword;
 import com.demoapp.demo.Common.OTP.VerifyOTP;
+import com.demoapp.demo.Common.SendNotificationPack.Token;
 import com.demoapp.demo.Databases.UserHelperClass;
 import com.demoapp.demo.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,8 +37,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.hbb20.CountryCodePicker;
 
 public class customer_signUp_page3 extends AppCompatActivity {
@@ -99,12 +103,17 @@ public class customer_signUp_page3 extends AppCompatActivity {
 
     }
 
+
     private void storeNewUsersData() {
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("Users");
 
-        UserHelperClass addNewUser = new UserHelperClass(fullName, phoneNo, email, userName, password, date, gender);
+        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken);
+
+        UserHelperClass addNewUser = new UserHelperClass(fullName, phoneNo, email, userName, password, date, gender, token);
 
         reference.child(phoneNo).setValue(addNewUser);
     }

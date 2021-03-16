@@ -84,5 +84,16 @@
     <string name="name_booking_page">name</string>
     <string name="phone_booking_page">phone Number</string>
     <string name="mail_booking_page_text">mail</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="home">HOME</string>
+    <string name="search">SEARCH</string>
+    <string name="categories">CATEGORIES</string>
+    <string name="mapView">MAP VIEW</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="share">Share</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="logo_name_abr">OASMS</string>
+    <string name="Service_dashboard">Service Center Dashboard</string>
 
 </resources>

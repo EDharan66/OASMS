@@ -158,7 +158,7 @@ public class Service_center_signUp_page1 extends AppCompatActivity {
             return false;
         }
         else if(!val.matches(checkPassword)){
-            password.setError("Password should contain 4 characters!!");
+            password.setError("Password should contain any special characters [eg.. @,$,&..]!!!!");
             return false;
         }
         else {

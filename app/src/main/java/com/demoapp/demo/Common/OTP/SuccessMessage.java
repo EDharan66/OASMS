@@ -31,8 +31,10 @@ public class SuccessMessage extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SuccessMessage.this, pairs);
             startActivity(intent, options.toBundle());
+            finish();
         } else {
             startActivity(intent);
+            finish();
         }
     }
 }

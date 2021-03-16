@@ -1,5 +1,11 @@
 package com.demoapp.demo.Common.MapViewer.NearByPlace;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,19 +18,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
-import com.demoapp.demo.Common.BookingPage;
-import com.demoapp.demo.Databases.ServicesHelperClass;
+import com.demoapp.demo.Common.Booking.BookingPage;
 import com.demoapp.demo.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,12 +37,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,11 +47,11 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    TextView retriveTV, snippetTV;
-    Button cardviewBtn;
+
+
     TextView mSearchText;
-    String markerName, name;
-    String markerSnippet, snippet;
+    String markerName;
+    String markerSnippet;
 
     private GoogleMap mMap;
     private GoogleApiClient client;
@@ -69,10 +61,6 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
     public static final int REQUEST_LOCATION_CODE = 99;
     int PROXIMITY_RADIUS = 10000;
     double latitude, longitude;
-
-
-    String ToastTitle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +79,6 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.service_map);
         mapFragment.getMapAsync(this);
-
-
 
     }
 
@@ -137,6 +123,7 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
 
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -184,20 +171,17 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
                 markerSnippet = marker.getSnippet();
                 Toast.makeText(ServiceMapActivity.this, markerName + markerSnippet, Toast.LENGTH_SHORT).show();
 
-
                 return false;
             }
         });
 
     }
 
-
     protected synchronized void bulidGoogleApiClient() {
         client = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         client.connect();
 
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -257,6 +241,7 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
                     }
                 }
                 break;
+
             case R.id.service_B_petrol_station:
                 mMap.clear();
                 String gas_station = "gas_station";
@@ -290,7 +275,7 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
         googlePlaceUrl.append("&sensor=true");
         googlePlaceUrl.append("&key=" + getString(R.string.google_maps_key));
 
-        Log.d("MapsActivity", "url = " + googlePlaceUrl.toString());
+        Log.d("ServiceMapsActivity", "url = " + googlePlaceUrl.toString());
 
         return googlePlaceUrl.toString();
     }
@@ -331,6 +316,11 @@ public class ServiceMapActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+
+    public void call_booking_Page(View view) {
+        startActivity(new Intent(getApplicationContext(), BookingPage.class));
     }
 
 }

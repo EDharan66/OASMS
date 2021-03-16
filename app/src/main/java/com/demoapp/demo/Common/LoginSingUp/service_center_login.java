@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -17,9 +18,11 @@ import com.demoapp.demo.Common.OTP.ForgetPassword;
 import com.demoapp.demo.Common.OTP.MakeSelection;
 import com.demoapp.demo.Common.OTP.VerifyOTP;
 import com.demoapp.demo.Databases.ServicesHelperClass;
+import com.demoapp.demo.Databases.SessionManager;
 import com.demoapp.demo.R;
 import com.demoapp.demo.User.ServiceDashboard;
 import com.demoapp.demo.User.UserDashboard;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,11 +32,17 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 
+import java.util.HashMap;
+
 public class service_center_login extends AppCompatActivity {
 
     CountryCodePicker countryCodePicker;
     TextInputLayout phoneNumber, password;
+    TextInputEditText RememberMePhoneNumber, RememberMePassword;
     RelativeLayout progressbar;
+    CheckBox RememberMe;
+
+    String loginType = "service";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +54,27 @@ public class service_center_login extends AppCompatActivity {
         phoneNumber = findViewById(R.id.service_center_login_phone_number);
         password = findViewById(R.id.service_center_login_password);
         progressbar = findViewById(R.id.service_center_login_progress_bar);
+        RememberMePhoneNumber = findViewById(R.id.login_phone_number_editText_service);
+        RememberMePassword = findViewById(R.id.login_password_editText_service);
+        RememberMe = findViewById(R.id.remember_me_service);
+
+
+        SessionManager sessionManager = new SessionManager(service_center_login.this, SessionManager.SESSION_REMEMBERME);
+        if(sessionManager.checkRememberMe()){
+            HashMap<String ,String > rememberMeDetails = sessionManager.getRememberMeDetailFromSession();
+            RememberMePhoneNumber.setText(rememberMeDetails.get(SessionManager.KEY_SESSIONPHONENO));
+            RememberMePassword.setText(rememberMeDetails.get(SessionManager.KEY_SESSIONPASSWORD));
+        }
 
     }
 
     public void callForgetPassword(View view){
-        startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
+
+        Intent intent = new Intent(getApplicationContext(),ForgetPassword.class);
+
+        intent.putExtra("loginType",loginType);
+
+        startActivity(intent);
         finish();
     }
 
@@ -68,6 +93,11 @@ public class service_center_login extends AppCompatActivity {
         }
 
         String _completePhoneNumber = "+" + countryCodePicker.getFullNumber() + _phoneNumber;
+
+        if(RememberMe.isChecked()){
+            SessionManager sessionManager = new SessionManager(service_center_login.this, SessionManager.SESSION_REMEMBERME);
+            sessionManager.createRememberMeSession(_phoneNumber,_password);
+        }
 
         Query checkUser = FirebaseDatabase.getInstance().getReference("service").orderByChild("phoneNo").equalTo(_completePhoneNumber);
 
@@ -94,6 +124,7 @@ public class service_center_login extends AppCompatActivity {
                         setNumberData(_phoneNo);
 
                         startActivity(new Intent(getApplicationContext(), ServiceDashboard.class));
+                        finish();
 
 
                     } else {
@@ -120,10 +151,10 @@ public class service_center_login extends AppCompatActivity {
     private void setNumberData(String user_phoneNo) {
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
-        DatabaseReference reference = rootNode.getReference("servicesMarker").child("bookingreport");
+        DatabaseReference reference = rootNode.getReference("servicesMarker");
 
         ServicesHelperClass addNewUser = new ServicesHelperClass(user_phoneNo);
-        reference.child("markerSnippet").setValue(addNewUser);
+        reference.child("login").setValue(addNewUser);
     }
 
     public void callSignUpFromLogin(View view){

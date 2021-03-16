@@ -1,15 +1,17 @@
 package com.demoapp.demo.Databases;
 
 
+import com.demoapp.demo.Common.SendNotificationPack.Token;
+
 public class UserHelperClass {
 
     String fullName, phoneNo, email, userName, password, date, gender;
-
-    public UserHelperClass() {}
-
+    Token token;
 
 
-    public UserHelperClass(String fullName, String phoneNo, String email, String userName, String password, String date, String gender) {
+
+
+    public UserHelperClass(String fullName, String phoneNo, String email, String userName, String password, String date, String gender, Token token) {
         this.fullName = fullName;
         this.phoneNo = phoneNo;
         this.email = email;
@@ -17,6 +19,7 @@ public class UserHelperClass {
         this.password = password;
         this.date = date;
         this.gender = gender;
+        this.token = token;
 
     }
 
@@ -80,4 +83,11 @@ public class UserHelperClass {
     }
 
 
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
 }

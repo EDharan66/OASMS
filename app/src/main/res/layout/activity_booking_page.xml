@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Common.BookingPage"
+    tools:context=".Common.Booking.BookingPage"
     android:background="@drawable/ctr_bg"
     android:transitionName="booking_trans">
 
@@ -58,13 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="10dp"
             android:gravity="center">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
                 android:padding="30dp">
 
                 <TextView
@@ -83,7 +82,7 @@
                     android:layout_below="@id/name_text"
                     android:text="@string/mail_booking_page_text"
                     android:visibility="visible"
-                    android:textSize="30dp"
+                    android:textSize="25dp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/phone_text"
@@ -91,28 +90,76 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/email_text"
                     android:text="@string/phone_booking_page"
-                    android:textSize="30dp"
+                    android:textSize="25dp"
                     android:textColor="@color/black"
                     android:visibility="visible"/>
 
                 <RatingBar
-                    style="@style/Widget.AppCompat.RatingBar"
+                    android:id="@+id/booking_rating_bar"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/phone_text"
-                    android:layout_marginTop="20dp"
-                    android:rating="3.5" />
+                    android:layout_marginTop="10dp" />
+
+                <EditText
+                    android:id="@+id/booking_field_text_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/booking_rating_bar"
+                    android:layout_marginTop="10dp"
+                    android:hint="textfield"
+                    android:textSize="23sp"/>
+
+                <ImageView
+                    android:id="@+id/car_upimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_centerInParent="true"
+                    android:layout_below="@+id/booking_field_text_field"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
+
+
+
+                <ProgressBar
+                    android:id="@+id/progessbar_upload_img"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_below="@+id/car_upimg"/>
+
+                <Button
+                    android:id="@+id/upload_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/progessbar_upload_img"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/button_bg"
+                    android:gravity="center"
+                    android:text="upload image" />
+
+                <ImageView
+                    android:id="@+id/camera_upolad_icon_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/upload_img"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@+id/upload_img"
+                    android:src="@drawable/camera_icon" />
 
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="50dp">
+                android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/booking_button"
+                    android:id="@+id/booking_btn"
                     android:layout_width="350dp"
                     android:layout_height="50dp"
                     android:gravity="center"
@@ -141,8 +188,7 @@
                     android:layout_marginBottom="0dp"
                     android:layout_toStartOf="@+id/message"
                     android:src="@drawable/call"
-                    android:clickable="true"
-                    android:onClick="callservicephone"/>
+                    android:clickable="true"/>
 
                 <ImageView
                     android:id="@+id/message"
@@ -193,7 +239,7 @@
         android:layout_height="wrap_content"
         android:baselineAlignBottom="false"
         android:clickable="true"
-        android:src="@drawable/cart1"
+        android:src="@drawable/booking"
         app:fabSize="normal"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="end|bottom"

@@ -3,26 +3,23 @@ package com.demoapp.demo.Common.LoginSingUp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActivityOptions;
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.demoapp.demo.Common.MapViewer.MapViewr;
 import com.demoapp.demo.Common.MapViewer.NearByPlace.MapsActivity;
 import com.demoapp.demo.Common.OTP.ForgetPassword;
-import com.demoapp.demo.Common.OTP.MakeSelection;
-import com.demoapp.demo.Common.OTP.VerifyOTP;
 import com.demoapp.demo.Databases.ServicesHelperClass;
+import com.demoapp.demo.Databases.SessionManager;
+import com.demoapp.demo.HelperClass.CheckInterNet;
 import com.demoapp.demo.R;
 import com.demoapp.demo.User.UserDashboard;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +28,17 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 
+import java.util.HashMap;
+
 public class customer_login extends AppCompatActivity {
 
     CountryCodePicker countryCodePicker;
     TextInputLayout phoneNumber, password;
+    TextInputEditText RememberMePhoneNumber, RememberMePassword;
     RelativeLayout progressbar;
+    CheckBox rememberMe;
+
+    String loginType = "Users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +50,37 @@ public class customer_login extends AppCompatActivity {
         phoneNumber = findViewById(R.id.customer_login_phone_number);
         password = findViewById(R.id.customer_login_password);
         progressbar = findViewById(R.id.customer_login_progress_bar);
+        rememberMe = findViewById(R.id.customer_login_remember_me);
+        RememberMePhoneNumber= findViewById(R.id.login_phone_number_editText);
+        RememberMePassword = findViewById(R.id.customer_login_password_editText);
 
+
+        SessionManager sessionManager = new SessionManager(customer_login.this, SessionManager.SESSION_REMEMBERME);
+        if(sessionManager.checkRememberMe()){
+            HashMap<String ,String > rememberMeDetails = sessionManager.getRememberMeDetailFromSession();
+            RememberMePhoneNumber.setText(rememberMeDetails.get(SessionManager.KEY_SESSIONPHONENO));
+            RememberMePassword.setText(rememberMeDetails.get(SessionManager.KEY_SESSIONPASSWORD));
+        }
 
     }
 
 
     public void callForgetPassword(View view) {
-        startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
+
+        Intent intent = new Intent(getApplicationContext(), ForgetPassword.class);
+
+        intent.putExtra("loginType", loginType);
+
+        startActivity(intent);
         finish();
     }
 
     public void letTheUserLoggedIn(View view) {
+
+        CheckInterNet checkInterNet = new CheckInterNet();
+        if (!checkInterNet.isConnected(this)) {
+            showCustomDialog();
+        }
 
         if (!validateFields()) {
             return;
@@ -73,6 +96,11 @@ public class customer_login extends AppCompatActivity {
         }
 
         String _completePhoneNumber = "+" + countryCodePicker.getFullNumber() + _phoneNumber;
+
+        if(rememberMe.isChecked()){
+            SessionManager sessionManager = new SessionManager(customer_login.this, SessionManager.SESSION_REMEMBERME);
+            sessionManager.createRememberMeSession(_phoneNumber,_password);
+        }
 
         Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_completePhoneNumber);
 
@@ -94,13 +122,17 @@ public class customer_login extends AppCompatActivity {
                         String _phoneNo = snapshot.child(_completePhoneNumber).child("phoneNo").getValue(String.class);
                         String _dateOfBirth = snapshot.child(_completePhoneNumber).child("date").getValue(String.class);
 
-                        Toast.makeText(customer_login.this, _fullName+"\n"+_email+"\n"+_phoneNo+"\n"+_dateOfBirth, Toast.LENGTH_SHORT).show();
+                        SessionManager sessionManager = new SessionManager(customer_login.this,SessionManager.SESSION_USERSESSION);
+                        sessionManager.createLoginSession(_fullName, _phoneNo, _email, _password, _dateOfBirth);
+
+                        Toast.makeText(customer_login.this, _fullName + "\n" + _email + "\n" + _phoneNo + "\n" + _dateOfBirth, Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
 
                         setNumberData(_phoneNo);
 
                         startActivity(new Intent(getApplicationContext(), UserDashboard.class));
+                        finish();
 
 
                     } else {
@@ -121,6 +153,10 @@ public class customer_login extends AppCompatActivity {
                 Toast.makeText(customer_login.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    private void showCustomDialog() {
 
     }
 

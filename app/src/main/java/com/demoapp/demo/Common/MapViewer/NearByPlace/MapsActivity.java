@@ -2,13 +2,13 @@ package com.demoapp.demo.Common.MapViewer.NearByPlace;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -17,7 +17,6 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -27,17 +26,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.demoapp.demo.Common.BookingPage;
-import com.demoapp.demo.Common.LoginSingUp.Service_center_signUp_page2;
-import com.demoapp.demo.Common.LoginSingUp.Service_center_signUp_page3;
-import com.demoapp.demo.Common.LoginSingUp.StartUpScreen;
-import com.demoapp.demo.Common.LoginSingUp.customer_login;
-import com.demoapp.demo.Common.LoginSingUp.service_center_login;
-import com.demoapp.demo.Common.MapViewer.Booking_page_new;
-import com.demoapp.demo.Common.OTP.ForgetPassword;
+import com.demoapp.demo.Common.Booking.BookingPage;
 import com.demoapp.demo.Databases.ServicesHelperClass;
 import com.demoapp.demo.R;
-import com.demoapp.demo.User.UserDashboard;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -60,7 +51,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     TextView retriveTV, snippetTV;
     Button cardviewBtn;
+    CardView cardView;
     TextView mSearchText;
     Button booking_page;
     String markerName, name;
@@ -79,6 +70,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String _fullName;
     String _email;
     String _phoneNo;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    Map<String,Object> map;
+
+
+
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
@@ -89,19 +87,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double latitude, longitude;
 
 
-    String ToastTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
 
-        booking_page = findViewById(R.id.booking_button);
+        //booking_page = findViewById(R.id.booking_button);
         retriveTV = findViewById(R.id.card_view_text);
         cardviewBtn = findViewById(R.id.card_view_button);
         mSearchText = (EditText) findViewById(R.id.input_search);
         snippetTV = findViewById(R.id.card_snippet_text);
+        cardView = findViewById(R.id.customer_car_view);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,11 +109,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        _fullName = getIntent().getStringExtra("fullName");
-
-        _email = getIntent().getStringExtra("email");
-        _phoneNo = getIntent().getStringExtra("phoneNo");
 
 
     }
@@ -225,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Toast.makeText(MapsActivity.this, "stored data", Toast.LENGTH_SHORT).show();
                         } else {
 
-                            Toast.makeText(MapsActivity.this, "failed to stored data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this, "", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -324,6 +316,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
                 getNearbyPlacesData.execute(dataTransfer);
+                CallFirebaseData();
+                cardView.setVisibility(View.VISIBLE);
 
                 Toast.makeText(MapsActivity.this, "Showing Nearby ServiceCenter", Toast.LENGTH_SHORT).show();
                 break;
@@ -336,6 +330,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
                 getNearbyPlacesData.execute(dataTransfer);
+                cardView.setVisibility(View.INVISIBLE);
+
                 Toast.makeText(MapsActivity.this, "Showing Nearby Petrol Station", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.B_auto_accessories_store:
@@ -344,12 +340,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 url = getUrl(latitude, longitude, accessories_store);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
+                cardView.setVisibility(View.INVISIBLE);
 
                 getNearbyPlacesData.execute(dataTransfer);
                 Toast.makeText(MapsActivity.this, "Showing Nearby Accessories Store", Toast.LENGTH_SHORT).show();
                 break;
 
         }
+    }
+
+
+    private void CallFirebaseData() {
+
+
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("service");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    map = (Map<String, Object>) ds.getValue();
+
+                    Object fullName = map.get("fullName");
+                    Object email = map.get("email");
+                    Object phoneNo = map.get("phoneNo");
+                    Double lat = Double.parseDouble( map.get("latitude").toString());
+                    Double lng = Double.parseDouble(map.get("longitude").toString());
+
+                    LatLng latLng = new LatLng( lat, lng);
+                    markerOptions.position(latLng);
+                    markerOptions.title(fullName.toString() + " : " + email.toString() + ", ");
+                    markerOptions.snippet(phoneNo.toString());
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+
+
+                    mMap.addMarker(markerOptions);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -407,8 +446,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void call_booking_Page(View view) {
-
-
         startActivity(new Intent(getApplicationContext(), BookingPage.class));
     }
 

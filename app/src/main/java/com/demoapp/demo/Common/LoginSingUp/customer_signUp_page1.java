@@ -149,7 +149,7 @@ public class customer_signUp_page1 extends AppCompatActivity {
                 //"(?=.*[a-z])" +         //at least 1 lower case letter
                 //"(?=.*[A-Z])" +         //at least 1 upper case letter
                 "(?=.*[a-zA-Z])" +      //any letter
-                //"(?=.*[@#$%^&+=])" +    //at least 1 special character
+                "(?=.*[@#$%^&+=])" +    //at least 1 special character
                 "(?=\\S+$)" +           //no white spaces
                 ".{4,}" +               //at least 4 characters
                 "$";
@@ -159,7 +159,7 @@ public class customer_signUp_page1 extends AppCompatActivity {
             return false;
         }
         else if(!val.matches(checkPassword)){
-            password.setError("Password should contain 4 characters!!");
+            password.setError("Password should contain any special characters [eg.. @,$,&..]!!");
             return false;
         }
         else {

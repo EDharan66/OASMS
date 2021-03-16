@@ -40,8 +40,9 @@ public class VerifyOTP extends AppCompatActivity {
 
     PinView pinFromUser;
     String codeBySystem;
+    TextView otpDescriptionText;
 
-    String phoneNo,fullName,email,userName,password,date,gender;
+    String phoneNo,fullName,email,userName,password,date,gender,loginType, whatToDo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +51,20 @@ public class VerifyOTP extends AppCompatActivity {
         setContentView(R.layout.activity_verify_o_t_p);
 
         pinFromUser = findViewById(R.id.pin_view);
+        otpDescriptionText = findViewById(R.id.otp_description_text);
 
 
         phoneNo = getIntent().getStringExtra("phoneNo");
+        loginType = getIntent().getStringExtra("loginType");
         fullName = getIntent().getStringExtra("fullName");
         email = getIntent().getStringExtra("email");
         userName = getIntent().getStringExtra("userName");
         password = getIntent().getStringExtra("password");
         date = getIntent().getStringExtra("date");
         gender = getIntent().getStringExtra("gender");
+        whatToDo = getIntent().getStringExtra("whatToDo");
 
-
+        otpDescriptionText.setText("Enter One Time Password Sent Onn"+phoneNo);
 
         sendVerificationCodeToUser(phoneNo);
     }
@@ -72,8 +76,8 @@ public class VerifyOTP extends AppCompatActivity {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNo)       // Phone number to verify
-                        .setTimeout((long) 60, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity((Activity) TaskExecutors.MAIN_THREAD)                 // Activity (for callback binding)
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
                         .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
@@ -120,6 +124,13 @@ public class VerifyOTP extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+
+                            if(whatToDo.equals("updateData")){
+
+                                updateOldUsersData();
+                            }else {
+                                storeNewUsersData();
+                            }
                             Toast.makeText(VerifyOTP.this, "Verification completed", Toast.LENGTH_SHORT).show();
 
 
@@ -134,6 +145,11 @@ public class VerifyOTP extends AppCompatActivity {
 
     private void updateOldUsersData() {
 
+        Intent intent = new Intent(getApplicationContext(),SetNewPassword.class);
+        intent.putExtra("phoneNo",phoneNo);
+        intent.putExtra("loginType",loginType);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -142,7 +158,7 @@ public class VerifyOTP extends AppCompatActivity {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("Users");
 
-        reference.setValue("hello!!");
+        //reference.setValue("hello!!");
     }
 
     public void goToHomeFromOTP(View view) {

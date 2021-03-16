@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.demoapp.demo.Common.BookingPage;
 import com.demoapp.demo.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -98,12 +97,12 @@ public class TextMessage extends AppCompatActivity {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(sPhone,null, sMessage, null,null);
 
-            Toast.makeText(this, "SMS send Successfully!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "SMS send Successfully!", Toast.LENGTH_LONG).show();
 
         }
         else {
 
-            Toast.makeText(this, "Enter the value first!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Enter the value first!", Toast.LENGTH_LONG).show();
 
         }
 
@@ -119,7 +118,7 @@ public class TextMessage extends AppCompatActivity {
             sendMessage();
         }else {
 
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
         }
 
     }

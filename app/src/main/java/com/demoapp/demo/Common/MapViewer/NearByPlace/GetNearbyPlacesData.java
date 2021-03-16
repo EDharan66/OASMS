@@ -34,13 +34,6 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
     private GoogleMap mMap;
     String url;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    Map<String,Object> map;
-
-
-
-
 
     @Override
     protected String doInBackground(Object... objects){
@@ -67,47 +60,10 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
         nearbyPlaceList = parser.parse(s);
         Log.d("nearbyplacesdata","called parse method");
         showNearbyPlaces(nearbyPlaceList);
-        CallFirebaseData();
+
     }
 
-    private void CallFirebaseData() {
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("service");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    map = (Map<String, Object>) ds.getValue();
-
-                    Object fullName = map.get("fullName");
-                    Object email = map.get("email");
-                    Object phoneNo = map.get("phoneNo");
-                    Double lat = Double.parseDouble( map.get("latitude").toString());
-                    Double lng = Double.parseDouble(map.get("longitude").toString());
-
-                    LatLng latLng = new LatLng( lat, lng);
-                    markerOptions.position(latLng);
-                    markerOptions.title(fullName.toString() + " : " + email.toString() + ", ");
-                    markerOptions.snippet(phoneNo.toString());
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-
-
-                    mMap.addMarker(markerOptions);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
 
     private void showNearbyPlaces(List<HashMap<String, String>> nearbyPlaceList)

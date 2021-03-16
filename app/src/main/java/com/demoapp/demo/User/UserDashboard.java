@@ -1,6 +1,9 @@
 package com.demoapp.demo.User;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,8 +12,10 @@ import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.demoapp.demo.Common.LoginSingUp.Service_center_signUp_page1;
@@ -18,20 +23,29 @@ import com.demoapp.demo.Common.LoginSingUp.Service_center_signUp_page2;
 import com.demoapp.demo.Common.MapViewer.MapCurrentLocation;
 import com.demoapp.demo.Common.MapViewer.MapViewr;
 import com.demoapp.demo.Common.MapViewer.NearByPlace.MapsActivity;
+import com.demoapp.demo.Common.ReportActivityCustomer;
 import com.demoapp.demo.HelperClass.HomeAdapter.CategoriesAdapter;
 import com.demoapp.demo.HelperClass.HomeAdapter.CategoriesHelperClass;
 import com.demoapp.demo.HelperClass.HomeAdapter.RecentAdapter;
 import com.demoapp.demo.HelperClass.HomeAdapter.RecentHelperClass;
 import com.demoapp.demo.R;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class UserDashboard extends AppCompatActivity {
+public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    static final float END_SCALE = 0.7f;
 
     RecyclerView recentSearchRecycler,categoriesRecycler;
     RecyclerView.Adapter adapter;
     LinearLayout Map_view_booking;
+    LinearLayout contentView;
+    ImageView menu_icon;
     private GradientDrawable gradient1, gradient2, gradient3, gradient4;
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +58,72 @@ public class UserDashboard extends AppCompatActivity {
         recentSearchRecycler = findViewById(R.id.recent_search_recycler);
         categoriesRecycler = findViewById(R.id.categories_recycler);
         Map_view_booking = findViewById(R.id.Map_view_booking);
+        drawerLayout = findViewById(R.id.customer_drawer_layout);
+        navigationView = findViewById(R.id.customer_navigation_view);
+        menu_icon = findViewById(R.id.customer_menu_icon);
+        contentView = findViewById(R.id.customer_content_view);
 
+        navigationDrawer();
         recentSearchRecycler();
         categoriesRecycler();
+    }
+
+    private void navigationDrawer() {
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
+
+        menu_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(drawerLayout.isDrawerVisible(GravityCompat.START)){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                else{
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
+        animateNavigationDrawer();
+
+    }
+
+    private void animateNavigationDrawer() {
+
+        drawerLayout.setScrimColor(getResources().getColor(R.color.ColorPrimary));
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                // Scale the View based on current slide offset
+                final float diffScaledOffset = slideOffset * (1 - END_SCALE);
+                final float offsetScale = 1 - diffScaledOffset;
+                contentView.setScaleX(offsetScale);
+                contentView.setScaleY(offsetScale);
+
+                // Translate the View, accounting for the scaled width
+                final float xOffset = drawerView.getWidth() * slideOffset;
+                final float xOffsetDiff = contentView.getWidth() * diffScaledOffset / 2;
+                final float xTranslation = xOffset - xOffsetDiff;
+                contentView.setTranslationX(xTranslation);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerVisible(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else
+            super.onBackPressed();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        return true;
     }
 
     private void categoriesRecycler() {
@@ -124,4 +201,7 @@ public class UserDashboard extends AppCompatActivity {
         }
     }
 
+    public void callCustomerReportpage(View view) {
+        startActivity(new Intent(getApplicationContext(), ReportActivityCustomer.class));
+    }
 }

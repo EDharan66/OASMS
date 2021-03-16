@@ -9,6 +9,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -17,10 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DemoApp">
-        <activity android:name=".User.ServiceDashboard"></activity>
+        <activity android:name=".Common.MapViewer.NotificationSentMessage"></activity>
+        <activity android:name=".Common.Booking.BookingNotificationService" />
+        <activity android:name=".Common.MapViewer.NearByPlace.ServiceMapActivity" />
+        <activity android:name=".Common.ReportActivityService" />
+        <activity android:name=".Common.ReportActivityCustomer" />
+        <activity android:name=".User.ServiceDashboard" />
         <activity android:name=".Common.MapViewer.TextMessage" />
-        <activity android:name=".Common.MapViewer.Booking_page_new" />
-        <activity android:name=".Common.BookingPage" />
+        <activity android:name=".Common.Booking.BookingPage" />
         <activity android:name=".Common.MapViewer.MapCurrentLocation" />
         <activity android:name=".Common.OTP.SuccessMessage" />
         <activity android:name=".Common.OTP.SetNewPassword" />
@@ -47,6 +52,38 @@
             </intent-filter>
         </activity>
         <activity android:name=".Common.MapViewer.NearByPlace.MapsActivity" />
+
+        <service
+            android:name=".Common.SendNotificationPack.MyFireBaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".Common.SendNotificationPack.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification_icon" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/ColorAccent" />
+
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"

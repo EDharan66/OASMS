@@ -60,7 +60,7 @@
                 app:startIconTint="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/login_phone_number_editText"
+                    android:id="@+id/login_phone_number_editText_service"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_semibold"
@@ -87,7 +87,7 @@
                 app:startIconTint="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/login_password_editText"
+                    android:id="@+id/login_password_editText_service"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli"
@@ -104,7 +104,7 @@
                 android:layout_marginTop="10dp">
 
                 <CheckBox
-                    android:id="@+id/remember_me"
+                    android:id="@+id/remember_me_service"
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

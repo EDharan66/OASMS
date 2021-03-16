@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Common.ReportActivityCustomer">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/report_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/repot2img"
+            android:layout_marginTop="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+        <TextView
+            android:id="@+id/Customer_booking_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/booking"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/report_img"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"
+            android:layout_marginLeft="40dp"
+            />
+
+        <TextView
+            android:id="@+id/customer_report_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Report!"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/Customer_booking_text"
+            app:layout_constraintTop_toTopOf="@+id/Customer_booking_text"
+            app:layout_constraintVertical_bias="0" />
+
+        <EditText
+            android:id="@+id/report_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="search"
+            android:textSize="14sp"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:elevation="4dp"
+            android:background="@drawable/search_bg"
+            app:layout_constraintWidth_percent=".7"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/Customer_booking_text"
+            app:layout_constraintTop_toBottomOf="@+id/Customer_booking_text" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="41dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/search_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/report_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/report_search"
+            app:layout_constraintTop_toTopOf="@+id/report_search"
+            app:layout_constraintVertical_bias=".5" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/report_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/report_search"
+            app:layout_constraintVertical_bias="0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>
