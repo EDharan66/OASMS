@@ -1,4 +1,3 @@
-# OASMS
 ![Alt text](/OASMS doc img/OASMS_page-0001.jpg)
 ![Alt text](/OASMS doc img/OASMS_page-0002.jpg)
 ![Alt text](/OASMS doc img/OASMS_page-0003.jpg)
